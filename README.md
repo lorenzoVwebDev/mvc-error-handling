@@ -1,5 +1,5 @@
-# "mvc-CORS-authorization”
-  A node web server based on MVC that serves log files and set the allowed origins/headers for CORS
+# "mvc-error-handling”
+  A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain.
 ## Features
 - mvc structure
 - Routing 
