@@ -8,7 +8,7 @@ async function logEvents(msg, type) {
   const dateEvent = `${format(new Date(), 'yyyyMMdd\tHH:mm:ss')}`
   const logItem = `${dateEvent}\t${type}\t${uuid()}\t${msg}\n`
   try {
-    if (!fs.existsSync(path.join(__dirname, '../', 'logs'))) {
+    if (!fs.existsSync(path.join(__dirname, '../', '../','logs'))) {
       await fsPromises.mkdir(path.join(__dirname, '../','../','logs'), (err) => {
         if (err) throw new Error()
       })
@@ -24,8 +24,9 @@ const requestLogger = async (req, res, next) => {
   next();
 }
 
-const errorLogger = async (message) => {
-  await logEvents(`\t${message}`, 'error');
+const errorLogger = async (err, req, res, next) => {
+  await logEvents(`\t${err.message} in ${err.fileName}`, err.type);
+  next(err)
 }
 
 const corsLogger = async (message) => {

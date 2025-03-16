@@ -1,14 +1,13 @@
 const { errorLogger } = require('../middleware/logEvents.js')
+const { errorCreator } = require('../configuration/commonFunctions.js')
 
-const logsTest = async (req, res) => {
-  try {
+
+const logsTest = async (req, res, next) => {
     if (!req.body) {
-      res.status(400).send('invalid get request')
-      throw new Error('invalid get request')
+      res.status(400).send('invalid get request');
+      next(errorCreator('invalid get request', 'error', __filename))
     }
-  } catch (err) {
-    errorLogger(err)
-  }
+    
 }
 
 module.exports = { logsTest }

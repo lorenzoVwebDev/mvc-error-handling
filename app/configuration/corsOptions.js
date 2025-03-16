@@ -1,16 +1,15 @@
+const path = require('path')
+const { errorCreator } = require('./commonFunctions.js')
+
 const whiteList = ['https://www.yoursite.com'];
 const { corsLogger } = require('../middleware/logEvents.js')
 
 const corsOptions = {
   origin: (origin, callback) => {
     if (whiteList.indexOf(origin) !== -1 || !origin) {
-      console.log(origin)
-      corsLogger(`${origin} allowed by CORS`)
       callback(null, true)
     } else {
-      console.log(origin)
-      corsLogger(`${origin} NOT allowed by CORS`)
-      callback(new Error('Not allowed by CORS'));
+      callback(errorCreator(`${origin} Not Allowed By Cors`, 'cors', __filename));
     }
   },
   allowedHeaders: ['project-type','Content-type'],

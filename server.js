@@ -6,22 +6,23 @@ const fs = require('fs');
 const fsPromises = require('fs').promises;
 const app = express();
 const cors = require('cors')
-const corsOptions = require('./configuration/corsOptions.js');
+const corsOptions = require('./app/configuration/corsOptions.js');
 //--------------- middlewares imports ------------------
-const {requestLogger} = require('./middleware/logEvents.js');
-const errorHandler = require('./middleware/errorHandler.js');
+const {requestLogger, errorLogger} = require('./app/middleware/logEvents.js');
+const errorHandler = require('./app/middleware/errorHandler.js');
 //------------------------------------------------------
 const PORT = process.env.PORT || 3000;
 //----------------middlewares---------------------------
 app.use(requestLogger);
 
+app.use(express.static(path.join(__dirname, './','public')));
+
 app.use(cors(corsOptions));
 
-app.use(express.static(path.join(__dirname, '../','public')));
-
 //----------------routing-------------------------------
-app.use('/testerror', require('./routes/testerror.route.js'))
+app.use('/testerror', require('./app/routes/testerror.route.js'))
 //----------------error handler-------------------------
+app.use(errorLogger)
 app.use(errorHandler)
 
 app.listen(PORT, () => {
